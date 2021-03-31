@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /Task/{allPaths=**} {
+      allow read: if false;
+      allow write:if request.auth.uid == 'E6Qjx0PtkNemvBFL8XGIxUEYNcp2';
+    }
+     match /Marks/{allPaths=**} {
+      allow read:if true;
+      allow write:if false;
+    }
+      match /Users/{uid}/{allPaths=**} {
+      allow read:if request.auth!=null && (request.auth.uid == uid || request.auth.uid == 'E6Qjx0PtkNemvBFL8XGIxUEYNcp2');
+      //allow write:if request.auth.uid == 'E6Qjx0PtkNemvBFL8XGIxUEYNcp2';
+      allow write:if true;
+    }
+
+
+  }
+}

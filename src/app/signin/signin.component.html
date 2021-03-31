@@ -1,0 +1,16 @@
+
+       
+          <div>
+            
+            <form>
+         
+                <input type="text" class="formControl" placeholder="Username" #userName required>
+            
+                <input type="password" class="formControl" placeholder="Password" #userPassword required>
+                  
+                <button type="button" class="btn btnPrimary" value="Log in" (click)="authService.SignIn(userName.value, userPassword.value)">Login</button>
+                
+              
+            </form>
+          </div>
+         

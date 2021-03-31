@@ -1,0 +1,56 @@
+<button type="button" (click)="authService.SignOut()">LogOut</button>
+<button type="button" (click)="this.hello()">Read</button>
+<section *ngIf="!bo">
+    
+    <div class="container leader-box">
+        <table class="task1-table" cellpadding="15">
+            <thead>
+                <th>Team Name</th>
+                <th>task1</th>
+            </thead>
+            <tr *ngFor="let pa of posts  | async; let i = index">
+                <td><button type="button" (click)="this.read(pa.id,pa.teamName,pa.id)">{{pa.teamName}}</button></td>
+                <td>{{pa.sb1_1}}</td>
+                <td>{{pa.sb1_2}}</td>
+                <td>{{pa.sb2_1}}</td>
+            </tr> 
+        </table>
+    </div>
+</section>
+<section *ngIf="bo">
+
+    <button type="button" (click)="this.back()">back</button>
+ <div class="container leader-box">
+     {{team}} {{OverallScore}}
+        <table class="task1-table" cellpadding="15">
+            <thead>
+                <th>task no</th>
+                <th>number of attempt:</th>
+                <th>time</th>
+                <th>time2</th>
+            </thead>
+            <tr *ngFor="let post of selectedUser  | async; let i = index">
+                <td>task:{{post.task}}</td>
+                <td>{{post.attempt}}</td>
+                <td >{{this.time(post.time)}}
+                <button type="button" (click)="this.download(post.link)">Download1</button></td>
+                <td>{{this.time(post.time2)}}
+                    <button type="button" (click)="this.download(post.link2)">Download2</button>
+                </td>
+                
+                <td>
+                    <input type="text" class="formControl" placeholder="enterMArks  " #Marks1>
+                </td>
+                <td>
+                    <button type="button" (click)="this.setMarks(team,post.task,Marks1.value,1)">Set Marks_S1</button>
+                </td>
+                <td>
+                    <input type="text" class="formControl" placeholder="enterMArks  " #Marks2>
+                </td>
+                <td>
+                    <button type="button" (click)="this.setMarks(team,post.task,Marks2.value,2)">Set Marks_S2</button>
+                </td>
+            </tr> 
+        </table>
+    </div>
+</section>
