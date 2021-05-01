@@ -1,0 +1,53 @@
+<div>
+    <button type="button" (click)="University()">Dashboard</button>
+</div>
+<hr>
+<div class="combobox">
+    <input type="text" placeholder="Select one..." #Name
+    class="combobox-input" [(ngModel)]='inputItem'
+    (ngModelChange)="getFilteredList()" (keyup)="onKeyPress($event)"
+    (blur)="toggleListDisplay(0)" (focus)="toggleListDisplay(1)"
+    [ngClass]="{'error': showError}">
+    <i *ngIf="showError" class="error-text">Invalid Selection.</i>
+    <div class="combobox-options" *ngIf="!listHidden">
+        <list-item *ngFor="let item of filteredList;let i = index"
+        [ngClass]="{'selected': i===selectedIndex}"
+        (click)="selectItem(i)">
+            {{item}}
+        </list-item>
+    </div>
+    <button type="button" (click)="teamUpdate(Name.value)">Set as Current Team</button>
+</div>
+<div>
+    Current Team: 
+    <br>
+    <hr>
+    Image;
+
+</div>
+
+<div>
+    <div class="container leader-box">
+        <hr>
+        <table class="task1-table" cellpadding="15" class="styled-table">
+            <thead>
+                <th>#</th>
+                <th>Team Name</th>
+                <th>Image</th>
+                <th>one</th>
+                <th>two</th>
+                <th>overall_score</th>
+            </thead>
+            <tbody>
+            <tr *ngFor="let pa of posts  | async; let i = index">
+                <td>{{i}}</td>
+                <td>{{pa.team_name}}</td>
+                <td>{{pa.image}}</td>
+                <td>{{pa.one}}</td>
+                <td>{{pa.two}}</td>
+                <td>{{pa.overall_score}}</td>   
+            </tr> 
+        </tbody>
+        </table>
+    </div>
+</div>

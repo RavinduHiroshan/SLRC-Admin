@@ -1,8 +1,9 @@
+import { UniversityComponent } from './../university/university.component';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FirebaseService } from '../services/firebase.service';
 import { Observable } from 'rxjs';
-import { Dictionary, result } from 'lodash';
+import { Router } from '@angular/router';
 var userTask: any[] = [];
 let imgae: any;
 
@@ -31,7 +32,9 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     public authService: FirebaseService,
-    private afs:AngularFirestore
+    private afs: AngularFirestore,
+    public ngZone: NgZone,
+    public router: Router,
   ) {
   }
 
@@ -45,11 +48,10 @@ export class DashboardComponent implements OnInit {
     console.log(team)
     this.bo = true;
     this.selectedUser = this.afs.collection(`Users/${val}/Submission`).valueChanges().pipe();
-    this.authService.readData('Marks').doc(team).get().subscribe(result => {
-      console.log(result.data());
-      this.Score = result.data();
-      this.OverallScore = this.Score['OverallScore']
-
+    this.authService.readData('Marks').doc(team).valueChanges().subscribe(result => {
+      console.log(result);
+      this.Score = result;
+      this.OverallScore = this.Score['Overall_Score']
     })
   }
   back() {
@@ -66,46 +68,26 @@ export class DashboardComponent implements OnInit {
     return localDate;
   }
 
-  show() {
-    const lin = `gs://slrc-school.appspot.com/Tasks/1/Did you know 4.png`
-    console.log(lin)
-    imgae = this.authService.downloadLink2(lin)
-  }
 
-
-  // click(id: string,uid:string) {
-  //   console.log(id)
-  //   // 1. Select the div element using the id property
-  //   const app = document.getElementById(id);
-  //   // 2. Create a new <p></p> element programmatically
-  //   const p = document.createElement("li");
-  //   // 3. Add the text content
-  //   const value = this.authService.readData(`Users/${uid}/Submission`).get().forEach(data => {
-  //     data.forEach(data => {
-  //       const doc: any = data.data();
-  //       console.log(doc);
-        
-  //     })
-  //   })
-  //   p.textContent = "Hello, World!";
-  //   // 4. Append the p element to the div element
-  //   app?.appendChild(p);
-  // }
   setMarks(teamName: string, task: any, data: any, s:any) {
     let sb = `sb${task}_${s}`
     this.afs.collection('Marks').doc(teamName).update({
-      [task]: data
+      [task]: Number(data)
       
     })
     this.afs.collection('Users').doc(this.id).update({
-      [sb]: data
+      [sb]: String(data)+`sb${s}`
     })
-
   }
-
-  
-  hello() {
-    
+  setMarks2(teamName: string,value: any) {
+    this.afs.collection('Marks').doc(teamName).update({
+      Overall_Score: Number(value)
+    })
+  }
+  University() {
+    this.ngZone.run(() => {
+      this.router.navigate(['university']);
+    });
   }
 
 }

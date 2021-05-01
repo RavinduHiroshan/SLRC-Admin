@@ -1,19 +1,33 @@
 <button type="button" (click)="authService.SignOut()">LogOut</button>
-<button type="button" (click)="this.hello()">Read</button>
+<br>
+<br>
+<button type="button" (click)="University()">Compettion Day</button>
 <section *ngIf="!bo">
     
     <div class="container leader-box">
-        <table class="task1-table" cellpadding="15">
+        <table class="task1-table" cellpadding="15" class="styled-table">
             <thead>
+                <th>#</th>
                 <th>Team Name</th>
                 <th>task1</th>
+                <th>task2</th>
+                <th>task2</th>
+                <th>task4</th>
+                <th>task5</th>
+                <th>task6</th>
             </thead>
+            <tbody>
             <tr *ngFor="let pa of posts  | async; let i = index">
-                <td><button type="button" (click)="this.read(pa.id,pa.teamName,pa.id)">{{pa.teamName}}</button></td>
-                <td>{{pa.sb1_1}}</td>
-                <td>{{pa.sb1_2}}</td>
-                <td>{{pa.sb2_1}}</td>
+                <td>{{i}}</td>
+                <td id="name"><button type="button" (click)="this.read(pa.id,pa.teamName,pa.id)">{{pa.teamName}}</button></td>
+                <td>{{pa.sb1_1}}--{{pa.sb1_2}}</td>
+                <td>{{pa.sb2_1}}--{{pa.sb2_2}}</td>
+                <td>{{pa.sb3_1}}--{{pa.sb3_2}}</td>
+                <td>{{pa.sb4_1}}--{{pa.sb4_2}}</td>
+                <td>{{pa.sb5_1}}--{{pa.sb5_2}}</td>
+                <td>{{pa.sb6_1}}--{{pa.sb6_2}}</td>
             </tr> 
+        </tbody>
         </table>
     </div>
 </section>
@@ -21,14 +35,32 @@
 
     <button type="button" (click)="this.back()">back</button>
  <div class="container leader-box">
-     {{team}} {{OverallScore}}
-        <table class="task1-table" cellpadding="15">
+     <section>
+        <h3>Team:- {{team}} </h3>
+        <input type="number"class="formControl" placeholder="OverallScore  " #MarksOver>
+        <button type="button" (click)="this.setMarks2(team,MarksOver.value)">Set Marks OverallScore</button>
+        <ul>
+            <li>OverallScore: -{{OverallScore}}</li>
+            <li> 1:-{{Score[1]}} </li>
+            <li> 2:-{{Score[2]}} </li>
+            <li> 3:-{{Score[3]}} </li>
+            <li> 4:-{{Score[4]}} </li>
+            <li> 5:-{{Score[5]}} </li>
+            <li> 6:-{{Score[6]}} </li>
+        </ul>
+        
+     </section>
+     
+        <table class="task1-table" cellpadding="15" class="styled-table">
             <thead>
                 <th>task no</th>
                 <th>number of attempt:</th>
                 <th>time</th>
                 <th>time2</th>
+                <th>Input s1 marks</th> 
+                <th>Input s2 marks</th>
             </thead>
+            <tbody>
             <tr *ngFor="let post of selectedUser  | async; let i = index">
                 <td>task:{{post.task}}</td>
                 <td>{{post.attempt}}</td>
@@ -39,18 +71,16 @@
                 </td>
                 
                 <td>
-                    <input type="text" class="formControl" placeholder="enterMArks  " #Marks1>
-                </td>
-                <td>
+                    <input type="number" class="formControl" placeholder="enterMArks1  " #Marks1>
+            
                     <button type="button" (click)="this.setMarks(team,post.task,Marks1.value,1)">Set Marks_S1</button>
                 </td>
                 <td>
-                    <input type="text" class="formControl" placeholder="enterMArks  " #Marks2>
-                </td>
-                <td>
+                    <input type="number" class="formControl" placeholder="enterMArks2  " #Marks2>
                     <button type="button" (click)="this.setMarks(team,post.task,Marks2.value,2)">Set Marks_S2</button>
                 </td>
             </tr> 
+        </tbody>
         </table>
     </div>
 </section>

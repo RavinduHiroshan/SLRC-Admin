@@ -7,16 +7,20 @@ import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
 import { SigninComponent } from './signin/signin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { UniversityComponent } from './university/university.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     SigninComponent,
-    DashboardComponent
+    DashboardComponent,
+    UniversityComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [FirebaseService],

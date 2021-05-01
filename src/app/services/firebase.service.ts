@@ -9,7 +9,7 @@ import { Dictionary, result } from 'lodash';
 declare var require:any;
 const FileSaver = require('file-saver');
 var UserList:any= []
-
+let list = { MvV2zMBWP4X18gTQc44jQRB1AKQ2:'MvV2zMBWP4X18gTQc44jQRB1AKQ2', SoDXNWcTqaNAqbzNCWoddXWOhj53:'SoDXNWcTqaNAqbzNCWoddXWOhj53', CSwtJHMo9phJPT4SnhF6lYU5XVc2:'CSwtJHMo9phJPT4SnhF6lYU5XVc2'}
 @Injectable({
   providedIn: 'root'
 })
@@ -30,7 +30,7 @@ export class FirebaseService {
       if(user){
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(this.userData));
-        if (this.userData.uid == 'CSwtJHMo9phJPT4SnhF6lYU5XVc2') {
+        if (this.userData.uid in list) {
           this.ngZone.run(() => {
             this.router.navigate(['dashboard']);
           });
@@ -46,17 +46,18 @@ export class FirebaseService {
   
   async SignIn(email:string,password:string){
     await this.firebaseAuth.signInWithEmailAndPassword(email,password)
-      .then(result => {
+      .then((result:any) => {
         this.userData = result.user;
         localStorage.setItem('user', JSON.stringify(result.user));
         localStorage.setItem('uid', this.userData.uid);
-        if (this.userData.uid == 'CSwtJHMo9phJPT4SnhF6lYU5XVc2') {
+        console.log(this.userData)
+        if (this.userData.uid in list) {
           this.ngZone.run(() => {
             this.router.navigate(['dashboard']);
           });
           
         } else {
-          this.SignOut()
+          //this.SignOut()
         }
         
       
