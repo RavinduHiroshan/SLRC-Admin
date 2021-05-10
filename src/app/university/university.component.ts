@@ -1,3 +1,4 @@
+import { AngularFireStorage } from '@angular/fire/storage';
 import { Component, Input, NgZone, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
@@ -20,6 +21,9 @@ export class UniversityComponent implements OnInit {
     inputItem = '';
     listObs: any;
     posts: any;
+    imglink: any;
+    team_name: any;
+    gotLink: any;
   // enable or disable visiblility of dropdown
   listHidden = true;
   showError = false;
@@ -31,8 +35,22 @@ export class UniversityComponent implements OnInit {
         private afs: AngularFirestore,
         public ngZone: NgZone,
         public router: Router,
+        private storage: AngularFireStorage
   ) { }
     ngOnInit() {
+        this.afs.collection("competition").doc("currrentTeam").valueChanges().subscribe((result:any) => {
+            this.team_name = result.name
+            this.getImgDownloadLink(result.image).then(data=>{
+                this.imglink= data;
+             }).catch(err => {
+                this.imglink= 'nop';
+              });     
+           
+        })
+        this.afs.collection("competition").doc("youtube").valueChanges().subscribe((result:any) => {
+            this.gotLink = result.link  
+           
+        })
         this.posts = this.afs.collection("Unimarks", ref => ref.orderBy(`team_name`)).valueChanges().pipe();
         this.listObs = this.afs.collection("Unimarks")
         this.listObs.get().subscribe((data: any)=> {
@@ -52,6 +70,13 @@ export class UniversityComponent implements OnInit {
   }
 }
   // select highlighted item when enter is pressed or any item that is clicked
+  getImgDownloadLink(link:string){
+    return new Promise((resolve, reject) => {
+      this.storage.storage.refFromURL(link).getDownloadURL().then(url => {
+      resolve(url);
+      });
+    });
+  }
   selectItem(ind:any) {
       this.inputItem = this.filteredList[ind];
       this.listHidden = true;
@@ -118,5 +143,19 @@ export class UniversityComponent implements OnInit {
         this.ngZone.run(() => {
           this.router.navigate(['dashboard']);
         });
-      }
+    }
+    
+    setMarks(marks: any, team: string) {
+        console.log(team)
+        this.afs.collection('Unimarks').doc(team).update({
+            overall_score:marks
+        })
+        
+    }
+    setLink(link: any) {
+        this.afs.collection('competition').doc('youtube').update({
+            link
+        })
+        
+    }
 }

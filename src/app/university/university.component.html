@@ -19,33 +19,39 @@
     <button type="button" (click)="teamUpdate(Name.value)">Set as Current Team</button>
 </div>
 <div>
-    Current Team: 
+    Current Team: {{team_name}}
     <br>
     <hr>
     Image;
+    <img [src]="imglink" alt="team image">
 
 </div>
-
 <div>
-    <div class="container leader-box">
+    <h5>Youtube Link; {{gotLink}}</h5>
+    <input type="text" placeholder='url.' #link>
+    <button (click)="setLink(link.value)">Update</button>
+
+</div>  
+<div>
+    <div class="containPr leader-box">
         <hr>
         <table class="task1-table" cellpadding="15" class="styled-table">
             <thead>
                 <th>#</th>
                 <th>Team Name</th>
-                <th>Image</th>
-                <th>one</th>
-                <th>two</th>
                 <th>overall_score</th>
+                <th>Add Score</th>
+                <th>Image</th>
             </thead>
             <tbody>
             <tr *ngFor="let pa of posts  | async; let i = index">
                 <td>{{i}}</td>
                 <td>{{pa.team_name}}</td>
+                
+                <td>{{pa.overall_score}}</td>
+                <td><input type="number" placeholder='Marks.' #marks>
+                <button (click)="setMarks(marks.value,pa.team_name)">Add Marks</button></td>
                 <td>{{pa.image}}</td>
-                <td>{{pa.one}}</td>
-                <td>{{pa.two}}</td>
-                <td>{{pa.overall_score}}</td>   
             </tr> 
         </tbody>
         </table>
